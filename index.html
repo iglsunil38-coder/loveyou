@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>My Forever Love 💖</title>
+
+<style>
+body{
+  margin:0;
+  padding:0;
+  background:#ff4da6;
+  font-family:Poppins,sans-serif;
+  overflow:hidden;
+}
+
+/* CENTER BOX */
+.box{
+  width:90%;
+  max-width:400px;
+  aspect-ratio:16/9;
+  background:white;
+  border-radius:20px;
+  padding:15px;
+  position:absolute;
+  top:50%;
+  left:50%;
+  transform:translate(-50%,-50%);
+  box-shadow:0 0 25px rgba(0,0,0,0.2);
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  text-align:center;
+}
+
+h1,h2{margin:8px 0;color:#5a2d0c;}
+
+button{
+  padding:10px 20px;
+  border:none;
+  border-radius:25px;
+  font-size:16px;
+  margin:8px;
+  cursor:pointer;
+}
+
+.yes{background:#ff4da6;color:white;}
+.no{background:#333;color:white;position:relative;}
+.play2{
+  background:linear-gradient(45deg,#ff0080,#ff8c00);
+  color:white;
+  font-weight:bold;
+  box-shadow:0 0 15px rgba(255,0,150,0.6);
+}
+
+.hidden{display:none}
+
+/* HEART */
+.heart{
+  position:absolute;
+  font-size:18px;
+  animation:float 4s linear infinite;
+}
+@keyframes float{
+  from{transform:translateY(100vh);}
+  to{transform:translateY(-10vh);}
+}
+
+/* FIREWORK */
+.fire{
+  position:absolute;
+  width:8px;
+  height:8px;
+  border-radius:50%;
+  animation:explode 1s linear forwards;
+}
+@keyframes explode{
+  from{transform:scale(1);}
+  to{transform:scale(7);opacity:0;}
+}
+
+/* VIDEO */
+video{
+  width:80%;
+  max-width:280px;
+  border-radius:12px;
+  margin-top:10px;
+}
+
+/* FINAL TEXT */
+#textDisplay{
+  font-size:24px;
+  font-weight:bold;
+  color:deeppink;
+}
+
+#proposalText{
+  font-size:20px;
+  font-weight:bold;
+  color:#e60073;
+  margin-top:10px;
+}
+</style>
+</head>
+<body>
+
+<!-- 🎵 MUSIC -->
+<audio id="bgMusic" src="music.mp3" loop></audio>
+
+<!-- PAGE 1 -->
+<div class="box" id="page1">
+<h1>HAI ******* 🦚</h1>
+<h2 id="count1" style="display:none;">20</h2>
+<button class="yes hidden" id="openBtn">OPEN 💝</button>
+</div>
+
+<!-- PAGE 2 -->
+<div class="box hidden" id="page2">
+<h1> 🦚</h1>
+<h2>WILL YOU BE MY VALENTINE 💝?</h2>
+<button class="yes" onclick="valYes()">YES</button>
+<button class="no" id="no1">NO</button>
+</div>
+
+<!-- PAGE 3 -->
+<div class="box hidden" id="page3">
+<h1>WILL YOU MARRY ME 👸</h1>
+<button class="yes" onclick="marryYes()">YES</button>
+<button class="no" onclick="moveNo(this)">NO</button>
+</div>
+
+<!-- LOVE MESSAGE -->
+<div class="box hidden" id="loveMsg">
+<h2>
+En life la vandhaderything change aaiduchu 💖<br>
+Un happin dhaan en goal 🥺<br>
+Naan un kooda iruklife full ah ready 😍<br>
+Love you more thanerday,<br>
+less than tomorrow ❤️
+</h2>
+<h2 id="count2" style="display:none;">10</h2>
+</div>
+
+<!-- VIDEO 1 -->
+<div class="box hidden" id="video1">
+<h2 style="color:black;">HAPPY VALENTINE DAY 💝</h2>
+<video id="vid1" playsinline>
+<source src="video1.mp4" type="video/mp4">
+</video>
+<button class="yes" onclick="playV1()">▶ PLAY</button>
+</div>
+
+<!-- VIDEO 2 -->
+<div class="box hidden" id="video2">
+<h2 style="color:black;">அழும்</h2>
+<video id="vid2" playsinline>
+<source src="video2.mp4" type="video/mp4">
+</video>
+<button class="play2" onclick="playV2()">✨ PLAY LOVE ✨</button>
+</div>
+
+<!-- FINAL SEQUENCE -->
+<div class="box hidden" id="finalSequence">
+<div id="textDisplay"></div>
+<div id="proposal" style="display:none;">
+<h1 style="color:deeppink;">WILL YOU MARRY ME! 💍</h1>
+<div id="proposalText"></div>
+</div>
+</div>
+
+<script>
+
+/* 🎵 MUSIC WITH LOW VOLUME */
+document.body.addEventListener("click",()=>{
+let music=document.getElementById("bgMusic");
+music.volume=0.2;
+music.play();
+},{once:true});
+
+let colors=["red","hotpink","purple","orange","deeppink","blue","gold"];
+
+/* HEART */
+function heartRain(){
+let h=document.createElement("div");
+h.innerHTML="❤️";
+h.className="heart";
+h.style.left=Math.random()*100+"%";
+h.style.color=colors[Math.floor(Math.random()*colors.length)];
+document.body.appendChild(h);
+setTimeout(()=>h.remove(),4000);
+}
+
+/* FIREWORK */
+function firework(){
+let f=setInterval(()=>{
+let d=document.createElement("div");
+d.className="fire";
+d.style.left=Math.random()*100+"%";
+d.style.top=Math.random()*100+"%";
+d.style.background=colors[Math.floor(Math.random()*colors.length)];
+document.body.appendChild(d);
+setTimeout(()=>d.remove(),1000);
+},120);
+setTimeout(()=>clearInterval(f),8000);
+}
+
+/* PAGE LOGIC */
+let t1=10;
+let timer1=setInterval(()=>{
+t1--;
+count1.innerHTML=t1;
+for(let i=0;i<3;i++){heartRain();}
+if(t1<=0){
+clearInterval(timer1);
+openBtn.classList.remove("hidden");
+}
+},1000);
+
+openBtn.onclick=function(){
+firework();
+setTimeout(()=>{
+page1.classList.add("hidden");
+page2.classList.remove("hidden");
+},8000);
+};
+
+no1.onclick=function(){
+this.style.position="absolute";
+this.style.left=Math.random()*70+"%";
+this.style.top=Math.random()*70+"%";
+};
+
+function valYes(){
+page2.classList.add("hidden");
+page3.classList.remove("hidden");
+}
+
+function moveNo(btn){
+btn.style.position="absolute";
+btn.style.left=Math.random()*70+"%";
+btn.style.top=Math.random()*70+"%";
+}
+
+function marryYes(){
+page3.classList.add("hidden");
+loveMsg.classList.remove("hidden");
+
+let t2=10;
+let timer2=setInterval(()=>{
+t2--;
+count2.innerHTML=t2;
+heartRain();
+if(t2<=0){
+clearInterval(timer2);
+loveMsg.classList.add("hidden");
+video1.classList.remove("hidden");
+}
+},1000);
+}
+
+function playV1(){ vid1.play(); }
+vid1.onended=function(){
+video1.classList.add("hidden");
+video2.classList.remove("hidden");
+};
+
+function playV2(){ vid2.play(); }
+vid2.onended=function(){
+video2.classList.add("hidden");
+startFinalSequence();
+};
+
+/* FINAL TEXT SEQUENCE */
+function startFinalSequence(){
+finalSequence.classList.remove("hidden");
+
+let texts=[
+"HAPPY VALENTINE DAY 💖","En Uyir 💓","En Vaanam ☁️","En Nilavu 🌙",
+"Idhayam 💗","Anbe 💕","En Aasai 💘","En Swasam 💞",
+"My Forever ♾️","Heart Queen 👑","Love Symphony 🎶",
+"Moon Princess 🌙","Dream Girl 💭","Soulmate 💞",
+"My Destiny ✨","Sweet Harmony 🎼",
+"Lovee 💋","Babeey 💖","Honeybun 🍯","Cutuu 🥰",
+"Boo ❤️","Snuggle Bug 🧸","Heartbeat 💓","My Rose 🌹"
+];
+
+let i=0;
+let seq=setInterval(()=>{
+textDisplay.innerHTML=texts[i];
+i++;
+if(i>=texts.length){
+clearInterval(seq);
+setTimeout(startProposal,1000);
+}
+},500);
+}
+
+function startProposal(){
+textDisplay.style.display="none";
+proposal.style.display="block";
+
+let lines=[
+"💍 Indha Valentine’s la oru kelvi… en kooda life full ah varuviya?",
+"❤️ Kadhal dhaan start… marriage dhaan target.",
+"Un kooda irukkura ovvoru nimishamum enaku oru puthu Valentine’s Day.",
+"💕 Kadhal vandhadhum en vazhkai full ah pink aayiduchu.",
+"💌 Nee irundha pothum… en ulagame complete.",
+"🌹 Un sirippu dhaan enakku daily gift.",
+"💍 Indha Valentine’s la kadhal mattum illa… forever promise."
+];
+
+let j=0;
+function showLine(){
+proposalText.innerHTML=lines[j];
+let duration=5000;
+if(j==lines.length-1){ duration=20000; }
+setTimeout(()=>{
+j++;
+if(j<lines.length){ showLine(); }
+},duration);
+}
+showLine();
+}
+
+</script>
+</body>
+</html>
